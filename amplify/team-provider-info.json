@@ -1,0 +1,20 @@
+{
+  "staging": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-amplify0bc31409d9b34-staging-164257-authRole",
+      "UnauthRoleArn": "arn:aws:iam::044822463022:role/amplify-amplify0bc31409d9b34-staging-164257-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::044822463022:role/amplify-amplify0bc31409d9b34-staging-164257-authRole",
+      "Region": "eu-north-1",
+      "DeploymentBucketName": "amplify-amplify0bc31409d9b34-staging-164257-deployment",
+      "UnauthRoleName": "amplify-amplify0bc31409d9b34-staging-164257-unauthRole",
+      "StackName": "amplify-amplify0bc31409d9b34-staging-164257",
+      "StackId": "arn:aws:cloudformation:eu-north-1:044822463022:stack/amplify-amplify0bc31409d9b34-staging-164257/64d47190-6dd5-11ee-bb17-0a189755e8ea",
+      "AmplifyAppId": "dkxu2txvr3w0d"
+    },
+    "categories": {
+      "auth": {
+        "crossthatbridge581ef99a": {}
+      }
+    }
+  }
+}
