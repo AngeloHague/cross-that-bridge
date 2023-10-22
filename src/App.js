@@ -1,41 +1,43 @@
 import React, { useState, useEffect } from "react";
 import "./App.css";
 import "@aws-amplify/ui-react/styles.css";
-import { API } from "aws-amplify";
+import { Auth, API } from "aws-amplify";
 import {
-  Button,
-  Flex,
-  Heading,
-  Text,
-  TextField,
-  View,
   withAuthenticator,
 } from "@aws-amplify/ui-react";
-import { listTodos } from "./graphql/queries";
+import { listProjects } from "./graphql/queries";
 import {
-  createTodo as createNoteMutation,
-  deleteTodo as deleteNoteMutation,
+  createProject as createNoteMutation,
+  deleteProject as deleteNoteMutation,
 } from "./graphql/mutations";
+import AddProject from "./components/projects/AddProject";
+import ProjectsHeader from "./components/projects/ProjectsHeader";
+import Divider from "./components/Divider";
+import RoundedButton from "./components/RoundedButton";
 
 const App = ({ signOut }) => {
-  const [notes, setNotes] = useState([]);
+  const [projects, setProjects] = useState([]);
 
   useEffect(() => {
     fetchNotes();
   }, []);
 
   async function fetchNotes() {
-    const apiData = await API.graphql({ query: listTodos });
-    const notesFromAPI = apiData.data.listTodos.items;
-    setNotes(notesFromAPI);
+    const apiData = await API.graphql({ query: listProjects });
+    const projectsFromAPI = apiData.data.listProjects.items;
+    setProjects(projectsFromAPI);
   }
 
   async function createNote(event) {
     event.preventDefault();
+    // Get the currently authenticated user
+    const user = await Auth.currentAuthenticatedUser();
+    // Form data
     const form = new FormData(event.target);
     const data = {
       name: form.get("name"),
       description: form.get("description"),
+      userId: user.attributes.sub, // sub is the Cognito user ID
     };
     await API.graphql({
       query: createNoteMutation,
@@ -46,8 +48,8 @@ const App = ({ signOut }) => {
   }
 
   async function deleteNote({ id }) {
-    const newNotes = notes.filter((note) => note.id !== id);
-    setNotes(newNotes);
+    const newNotes = projects.filter((note) => note.id !== id);
+    setProjects(newNotes);
     await API.graphql({
       query: deleteNoteMutation,
       variables: { input: { id } },
@@ -55,52 +57,35 @@ const App = ({ signOut }) => {
   }
 
   return (
-    <View className="App">
-      <Heading level={1}>My Notes App</Heading>
-      <View as="form" margin="3rem 0" onSubmit={createNote}>
-        <Flex direction="row" justifyContent="center">
-          <TextField
-            name="name"
-            placeholder="Note Name"
-            label="Note Name"
-            labelHidden
-            variation="quiet"
-            required
-          />
-          <TextField
-            name="description"
-            placeholder="Note Description"
-            label="Note Description"
-            labelHidden
-            variation="quiet"
-            required
-          />
-          <Button type="submit" variation="primary">
-            Create Note
-          </Button>
-        </Flex>
-      </View>
-      <Heading level={2}>Current Notes</Heading>
-      <View margin="3rem 0">
-        {notes.map((note) => (
-          <Flex
-            key={note.id || note.name}
-            direction="row"
-            justifyContent="center"
-            alignItems="center"
-          >
-            <Text as="strong" fontWeight={700}>
-              {note.name}
-            </Text>
-            <Text as="span">{note.description}</Text>
-            <Button variation="link" onClick={() => deleteNote(note)}>
-              Delete note
-            </Button>
-          </Flex>
-        ))}
-      </View>
-      <Button onClick={signOut}>Sign Out</Button>
-    </View>
+    <div className="App">
+      {/* <Heading level={1}>My Notes App</Heading> */}
+      <div className="App-Window fill">
+        <ProjectsHeader n_projects={projects.length} />
+        {/* <AddProject onSubmit={createNote} /> */}
+        {/* <Heading level={2}>Current Notes</Heading> */}
+        <Divider />
+        <div className="w-full box-border px-8">
+            {projects.map((note) => (
+                <RoundedButton key={note.id} text={note.name} />
+            // <Flex
+            //     key={note.id || note.name}
+            //     direction="row"
+            //     justifyContent="center"
+            //     alignItems="center"
+            // >
+            //     <Text as="strong" fontWeight={700}>
+            //     {note.name}
+            //     </Text>
+            //     <Text as="span">{note.description}</Text>
+            //     <Button variation="link" onClick={() => deleteNote(note)}>
+            //     Delete note
+            //     </Button>
+            // </Flex>
+            ))}
+        </div>
+        <button onClick={signOut}>Sign Out</button>
+      </div>
+    </div>
   );
 };
 

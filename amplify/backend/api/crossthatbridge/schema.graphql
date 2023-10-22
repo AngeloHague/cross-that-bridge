@@ -6,12 +6,29 @@ type Project @model @auth( rules: [ { allow: owner } ] ) {
   id: ID!
   name: String!
   description: String
+  userId: ID!
 }
 
 type Todo @model @auth(rules: [ { allow: owner } ] ) {
   id: ID!
   name: String!
   description: String
+  userId: ID!
   projectID: ID!
   parentTask: ID
+}
+
+type Query {
+  getMyTodos: [Todo]
+    @auth(
+      rules: [
+        { allow: owner, ownerField: "userId" }
+      ]
+    )
+  getMyProjects: [Project]
+    @auth(
+      rules: [
+        { allow: owner, ownerField: "userId" }
+      ]
+    )
 }

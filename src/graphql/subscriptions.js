@@ -1,38 +1,110 @@
 /* eslint-disable */
 // this is an auto generated file. This will be overwritten
 
-export const onCreateTodo = /* GraphQL */ `
-  subscription OnCreateTodo($filter: ModelSubscriptionTodoFilterInput) {
-    onCreateTodo(filter: $filter) {
+export const onCreateProject = /* GraphQL */ `
+  subscription OnCreateProject(
+    $filter: ModelSubscriptionProjectFilterInput
+    $owner: String
+  ) {
+    onCreateProject(filter: $filter, owner: $owner) {
       id
       name
       description
+      userId
       createdAt
       updatedAt
+      owner
+      __typename
+    }
+  }
+`;
+export const onUpdateProject = /* GraphQL */ `
+  subscription OnUpdateProject(
+    $filter: ModelSubscriptionProjectFilterInput
+    $owner: String
+  ) {
+    onUpdateProject(filter: $filter, owner: $owner) {
+      id
+      name
+      description
+      userId
+      createdAt
+      updatedAt
+      owner
+      __typename
+    }
+  }
+`;
+export const onDeleteProject = /* GraphQL */ `
+  subscription OnDeleteProject(
+    $filter: ModelSubscriptionProjectFilterInput
+    $owner: String
+  ) {
+    onDeleteProject(filter: $filter, owner: $owner) {
+      id
+      name
+      description
+      userId
+      createdAt
+      updatedAt
+      owner
+      __typename
+    }
+  }
+`;
+export const onCreateTodo = /* GraphQL */ `
+  subscription OnCreateTodo(
+    $filter: ModelSubscriptionTodoFilterInput
+    $owner: String
+  ) {
+    onCreateTodo(filter: $filter, owner: $owner) {
+      id
+      name
+      description
+      userId
+      projectID
+      parentTask
+      createdAt
+      updatedAt
+      owner
       __typename
     }
   }
 `;
 export const onUpdateTodo = /* GraphQL */ `
-  subscription OnUpdateTodo($filter: ModelSubscriptionTodoFilterInput) {
-    onUpdateTodo(filter: $filter) {
+  subscription OnUpdateTodo(
+    $filter: ModelSubscriptionTodoFilterInput
+    $owner: String
+  ) {
+    onUpdateTodo(filter: $filter, owner: $owner) {
       id
       name
       description
+      userId
+      projectID
+      parentTask
       createdAt
       updatedAt
+      owner
       __typename
     }
   }
 `;
 export const onDeleteTodo = /* GraphQL */ `
-  subscription OnDeleteTodo($filter: ModelSubscriptionTodoFilterInput) {
-    onDeleteTodo(filter: $filter) {
+  subscription OnDeleteTodo(
+    $filter: ModelSubscriptionTodoFilterInput
+    $owner: String
+  ) {
+    onDeleteTodo(filter: $filter, owner: $owner) {
       id
       name
       description
+      userId
+      projectID
+      parentTask
       createdAt
       updatedAt
+      owner
       __typename
     }
   }

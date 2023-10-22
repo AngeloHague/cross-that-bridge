@@ -1,5 +1,48 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html {
+  font-family: 'Montserrat', sans-serif;
+}
+
+#root {
+  background-image: url('../public/BG.png');
+}
+
 .App {
+  padding: 16px;
   text-align: center;
+  height: 100vh;
+  background: rgba(18, 14, 67, 0.5);
+  backdrop-filter: blur(48px);
+  color: #fff;
+}
+
+.Divider {
+  display: block;
+  content: '';
+  background-color: white;
+}
+
+.soft-white {
+  background-color: rgba(255, 255, 255, 0.80);
+  color: #212351;
+}
+.soft-white * {
+  mix-blend-mode: darken;
+}
+
+.fill {
+  margin: 0;
+  box-sizing: border-box;
+  width: 100%;
+  height: 100%;
+}
+
+.App-Window {
+  border-radius: 16px;
+  background: rgba(11, 11, 29, 0.75);
 }
 
 .App-logo {

@@ -12,37 +12,32 @@ export declare type ValidationResponse = {
     errorMessage?: string;
 };
 export declare type ValidationFunction<T> = (value: T, validationResponse: ValidationResponse) => ValidationResponse | Promise<ValidationResponse>;
-export declare type TodoCreateFormInputValues = {
+export declare type ProjectUpdateFormInputValues = {
     name?: string;
     description?: string;
     userId?: string;
-    projectID?: string;
-    parentTask?: string;
 };
-export declare type TodoCreateFormValidationValues = {
+export declare type ProjectUpdateFormValidationValues = {
     name?: ValidationFunction<string>;
     description?: ValidationFunction<string>;
     userId?: ValidationFunction<string>;
-    projectID?: ValidationFunction<string>;
-    parentTask?: ValidationFunction<string>;
 };
 export declare type PrimitiveOverrideProps<T> = Partial<T> & React.DOMAttributes<HTMLDivElement>;
-export declare type TodoCreateFormOverridesProps = {
-    TodoCreateFormGrid?: PrimitiveOverrideProps<GridProps>;
+export declare type ProjectUpdateFormOverridesProps = {
+    ProjectUpdateFormGrid?: PrimitiveOverrideProps<GridProps>;
     name?: PrimitiveOverrideProps<TextFieldProps>;
     description?: PrimitiveOverrideProps<TextFieldProps>;
     userId?: PrimitiveOverrideProps<TextFieldProps>;
-    projectID?: PrimitiveOverrideProps<TextFieldProps>;
-    parentTask?: PrimitiveOverrideProps<TextFieldProps>;
 } & EscapeHatchProps;
-export declare type TodoCreateFormProps = React.PropsWithChildren<{
-    overrides?: TodoCreateFormOverridesProps | undefined | null;
+export declare type ProjectUpdateFormProps = React.PropsWithChildren<{
+    overrides?: ProjectUpdateFormOverridesProps | undefined | null;
 } & {
-    clearOnSuccess?: boolean;
-    onSubmit?: (fields: TodoCreateFormInputValues) => TodoCreateFormInputValues;
-    onSuccess?: (fields: TodoCreateFormInputValues) => void;
-    onError?: (fields: TodoCreateFormInputValues, errorMessage: string) => void;
-    onChange?: (fields: TodoCreateFormInputValues) => TodoCreateFormInputValues;
-    onValidate?: TodoCreateFormValidationValues;
+    id?: string;
+    project?: any;
+    onSubmit?: (fields: ProjectUpdateFormInputValues) => ProjectUpdateFormInputValues;
+    onSuccess?: (fields: ProjectUpdateFormInputValues) => void;
+    onError?: (fields: ProjectUpdateFormInputValues, errorMessage: string) => void;
+    onChange?: (fields: ProjectUpdateFormInputValues) => ProjectUpdateFormInputValues;
+    onValidate?: ProjectUpdateFormValidationValues;
 } & React.CSSProperties>;
-export default function TodoCreateForm(props: TodoCreateFormProps): React.ReactElement;
+export default function ProjectUpdateForm(props: ProjectUpdateFormProps): React.ReactElement;

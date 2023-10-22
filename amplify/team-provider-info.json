@@ -13,7 +13,8 @@
     },
     "categories": {
       "auth": {
-        "crossthatbridge581ef99a": {}
+        "crossthatbridge581ef99a": {},
+        "userPoolGroups": {}
       },
       "api": {
         "crossthatbridge": {}

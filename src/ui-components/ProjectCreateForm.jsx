@@ -10,8 +10,8 @@ import { Button, Flex, Grid, TextField } from "@aws-amplify/ui-react";
 import { getOverrideProps } from "@aws-amplify/ui-react/internal";
 import { fetchByPath, validateField } from "./utils";
 import { API } from "aws-amplify";
-import { createTodo } from "../graphql/mutations";
-export default function TodoCreateForm(props) {
+import { createProject } from "../graphql/mutations";
+export default function ProjectCreateForm(props) {
   const {
     clearOnSuccess = true,
     onSuccess,
@@ -26,31 +26,23 @@ export default function TodoCreateForm(props) {
     name: "",
     description: "",
     userId: "",
-    projectID: "",
-    parentTask: "",
   };
   const [name, setName] = React.useState(initialValues.name);
   const [description, setDescription] = React.useState(
     initialValues.description
   );
   const [userId, setUserId] = React.useState(initialValues.userId);
-  const [projectID, setProjectID] = React.useState(initialValues.projectID);
-  const [parentTask, setParentTask] = React.useState(initialValues.parentTask);
   const [errors, setErrors] = React.useState({});
   const resetStateValues = () => {
     setName(initialValues.name);
     setDescription(initialValues.description);
     setUserId(initialValues.userId);
-    setProjectID(initialValues.projectID);
-    setParentTask(initialValues.parentTask);
     setErrors({});
   };
   const validations = {
     name: [{ type: "Required" }],
     description: [],
     userId: [{ type: "Required" }],
-    projectID: [{ type: "Required" }],
-    parentTask: [],
   };
   const runValidationTasks = async (
     fieldName,
@@ -81,8 +73,6 @@ export default function TodoCreateForm(props) {
           name,
           description,
           userId,
-          projectID,
-          parentTask,
         };
         const validationResponses = await Promise.all(
           Object.keys(validations).reduce((promises, fieldName) => {
@@ -113,7 +103,7 @@ export default function TodoCreateForm(props) {
             }
           });
           await API.graphql({
-            query: createTodo.replaceAll("__typename", ""),
+            query: createProject.replaceAll("__typename", ""),
             variables: {
               input: {
                 ...modelFields,
@@ -133,7 +123,7 @@ export default function TodoCreateForm(props) {
           }
         }
       }}
-      {...getOverrideProps(overrides, "TodoCreateForm")}
+      {...getOverrideProps(overrides, "ProjectCreateForm")}
       {...rest}
     >
       <TextField
@@ -148,8 +138,6 @@ export default function TodoCreateForm(props) {
               name: value,
               description,
               userId,
-              projectID,
-              parentTask,
             };
             const result = onChange(modelFields);
             value = result?.name ?? value;
@@ -176,8 +164,6 @@ export default function TodoCreateForm(props) {
               name,
               description: value,
               userId,
-              projectID,
-              parentTask,
             };
             const result = onChange(modelFields);
             value = result?.description ?? value;
@@ -204,8 +190,6 @@ export default function TodoCreateForm(props) {
               name,
               description,
               userId: value,
-              projectID,
-              parentTask,
             };
             const result = onChange(modelFields);
             value = result?.userId ?? value;
@@ -219,62 +203,6 @@ export default function TodoCreateForm(props) {
         errorMessage={errors.userId?.errorMessage}
         hasError={errors.userId?.hasError}
         {...getOverrideProps(overrides, "userId")}
-      ></TextField>
-      <TextField
-        label="Project id"
-        isRequired={true}
-        isReadOnly={false}
-        value={projectID}
-        onChange={(e) => {
-          let { value } = e.target;
-          if (onChange) {
-            const modelFields = {
-              name,
-              description,
-              userId,
-              projectID: value,
-              parentTask,
-            };
-            const result = onChange(modelFields);
-            value = result?.projectID ?? value;
-          }
-          if (errors.projectID?.hasError) {
-            runValidationTasks("projectID", value);
-          }
-          setProjectID(value);
-        }}
-        onBlur={() => runValidationTasks("projectID", projectID)}
-        errorMessage={errors.projectID?.errorMessage}
-        hasError={errors.projectID?.hasError}
-        {...getOverrideProps(overrides, "projectID")}
-      ></TextField>
-      <TextField
-        label="Parent task"
-        isRequired={false}
-        isReadOnly={false}
-        value={parentTask}
-        onChange={(e) => {
-          let { value } = e.target;
-          if (onChange) {
-            const modelFields = {
-              name,
-              description,
-              userId,
-              projectID,
-              parentTask: value,
-            };
-            const result = onChange(modelFields);
-            value = result?.parentTask ?? value;
-          }
-          if (errors.parentTask?.hasError) {
-            runValidationTasks("parentTask", value);
-          }
-          setParentTask(value);
-        }}
-        onBlur={() => runValidationTasks("parentTask", parentTask)}
-        errorMessage={errors.parentTask?.errorMessage}
-        hasError={errors.parentTask?.hasError}
-        {...getOverrideProps(overrides, "parentTask")}
       ></TextField>
       <Flex
         justifyContent="space-between"
