@@ -7,16 +7,24 @@ import {
 } from "@aws-amplify/ui-react";
 import { listProjects } from "./graphql/queries";
 import {
-  createProject as createNoteMutation,
-  deleteProject as deleteNoteMutation,
+  createProject as createProjectMutation,
+  deleteProject as deleteProjectMutation,
 } from "./graphql/mutations";
-import AddProject from "./components/projects/AddProject";
 import ProjectsHeader from "./components/projects/ProjectsHeader";
 import Divider from "./components/Divider";
-import RoundedButton from "./components/RoundedButton";
+import FeatherIcon from "feather-icons-react/build/FeatherIcon";
+import ProjectsList from "./components/projects/Projects";
+import { OverlayProvider, useOverlay } from "./components/OverlayContext";
 
 const App = ({ signOut }) => {
   const [projects, setProjects] = useState([]);
+  const [theProject, setProject] = useState();
+
+  // Overlay functions
+  const { openOverlay } = useOverlay();
+  const handleOpenOverlay = (content) => {
+    openOverlay(content);
+  }
 
   useEffect(() => {
     fetchNotes();
@@ -28,7 +36,7 @@ const App = ({ signOut }) => {
     setProjects(projectsFromAPI);
   }
 
-  async function createNote(event) {
+  async function createProject(event) {
     event.preventDefault();
     // Get the currently authenticated user
     const user = await Auth.currentAuthenticatedUser();
@@ -40,7 +48,7 @@ const App = ({ signOut }) => {
       userId: user.attributes.sub, // sub is the Cognito user ID
     };
     await API.graphql({
-      query: createNoteMutation,
+      query: createProjectMutation,
       variables: { input: data },
     });
     fetchNotes();
@@ -51,42 +59,40 @@ const App = ({ signOut }) => {
     const newNotes = projects.filter((note) => note.id !== id);
     setProjects(newNotes);
     await API.graphql({
-      query: deleteNoteMutation,
+      query: deleteProjectMutation,
       variables: { input: { id } },
     });
   }
 
+  function selectProject(project) {
+    setProject(project.id);
+    console.log(project.name);
+    console.log(project.description);
+  }
+
   return (
-    <div className="App">
-      {/* <Heading level={1}>My Notes App</Heading> */}
-      <div className="App-Window fill">
+    <div className="App text-white">
+      <div className="App-Window fill flex flex-col">
         <ProjectsHeader n_projects={projects.length} />
-        {/* <AddProject onSubmit={createNote} /> */}
-        {/* <Heading level={2}>Current Notes</Heading> */}
         <Divider />
-        <div className="w-full box-border px-8">
-            {projects.map((note) => (
-                <RoundedButton key={note.id} text={note.name} />
-            // <Flex
-            //     key={note.id || note.name}
-            //     direction="row"
-            //     justifyContent="center"
-            //     alignItems="center"
-            // >
-            //     <Text as="strong" fontWeight={700}>
-            //     {note.name}
-            //     </Text>
-            //     <Text as="span">{note.description}</Text>
-            //     <Button variation="link" onClick={() => deleteNote(note)}>
-            //     Delete note
-            //     </Button>
-            // </Flex>
-            ))}
-        </div>
-        <button onClick={signOut}>Sign Out</button>
+        <main className="flex-grow">
+            <ProjectsList projects={projects} setProject={selectProject} />
+        </main>
+        <button className="soft-dark rounded-xl flex gap-4 m-auto px-4 py-3 mb-8" onClick={signOut}>
+            <p className="uppercase text-xl font-semibold">Sign Out</p>
+            <FeatherIcon icon={"log-out"} />
+        </button>
       </div>
     </div>
   );
 };
 
-export default withAuthenticator(App);
+export function AppWithOverlay() {
+    return (
+        <OverlayProvider>
+            <App />
+        </OverlayProvider>
+    )
+}
+
+export default withAuthenticator(AppWithOverlay);
