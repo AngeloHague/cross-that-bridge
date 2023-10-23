@@ -13,6 +13,7 @@ export async function fetchProjectsFromAWS(dispatch) {
     try {
         const apiData = await API.graphql({ query: listProjects });
         const projects = apiData.data.listProjects.items;
+        localStorage.setItem('cross-that-bridge/projects', JSON.stringify(projects));
         dispatch(SET_PROJECTS(projects));
     } catch (error) {
         console.error('Error fetching projects:', error);

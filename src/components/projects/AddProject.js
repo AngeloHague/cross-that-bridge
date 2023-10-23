@@ -4,11 +4,19 @@ import { API, Auth } from 'aws-amplify';
 import { createProject as createProjectMutation} from '../../graphql/mutations';
 import { useDispatch } from 'react-redux';
 import { fetchProjectsFromAWS } from '../../util/aws-amplify';
+import { ADD_PROJECT } from '../../util/redux/projectSlice'
+import { useOverlay } from '../OverlayContext';
 
 const input_class_list = "my-3 py-2 px-4 rounded-xl text-black";
 
 export default function AddProject({onSubmit}) {
   const dispatch = useDispatch();
+  const { closeOverlay } = useOverlay();
+
+    const handleClose = () => {
+        closeOverlay(); 
+    };
+
     async function createProject(event) {
       event.preventDefault();
       const form = new FormData(event.target);
@@ -20,11 +28,14 @@ export default function AddProject({onSubmit}) {
       };
 
       try {
-        await API.graphql({
+        const res = await API.graphql({
           query: createProjectMutation,
           variables: { input: data },
         });
-        fetchProjectsFromAWS(dispatch)
+        console.log(res);
+        dispatch(ADD_PROJECT(res.data.createProject));
+        closeOverlay();
+        // fetchProjectsFromAWS(dispatch)
       } catch (error) {
         console.error('Error creating project: ', error);
       }
