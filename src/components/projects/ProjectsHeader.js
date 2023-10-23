@@ -15,8 +15,8 @@ export default function ProjectsHeader({props}) {
     const n_projects = (projects) ? projects.length : 0;
     const { openOverlay } = useOverlay();
     const addProject = () => {
-    openOverlay(<AddProject />)
-  }
+        openOverlay(<AddProject />)
+    }
     return (
         <div className="App-Header flex p-5 gap-5 justify-center max-w-sm m-auto">
             <AnimatedDiv className={"Project-Count shrink-0 soft-white rounded-xl w-32 h-32 aspect-square "+flex_center}>

@@ -15,14 +15,19 @@ export const projectSlice = createSlice({
             state.projects = action.payload;
         },
         DELETE_PROJECT: (state, action) => {
-            state.projects = [action.payload];
+            // delete project
+            const projectID = action.payload;
+            const updatedProjects = state.projects.filter(
+                (project) => project.id !== projectID
+            );
+            state.projects = updatedProjects;
         },
         // Current Project Handlers
         SET_CURRENT_PROJECT: (state, action) => {
-            state.project = action.payload;
+            state.current = action.payload;
         },
         CLEAR_CURRENT_PROJECT: (state) => {
-            state.project = null;
+            state.current = null;
         }
     }
 });

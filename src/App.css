@@ -19,6 +19,13 @@ html * {
   backdrop-filter: blur(48px);
 }
 
+.bg-grey-blue {
+  background-color: rgba(43, 64, 92, 0.80);
+}
+.bg-cancel-red {
+  background: rgba(255, 92, 92, 0.80);
+}
+
 .Divider {
   display: block;
   content: '';

@@ -7,7 +7,7 @@ import {
 import ProjectsHeader from "./components/projects/ProjectsHeader";
 import Divider from "./components/Divider";
 import FeatherIcon from "feather-icons-react/build/FeatherIcon";
-import ProjectsList from "./components/projects/Projects";
+import { ProjectsList, Project } from "./components/projects/Projects";
 import { OverlayProvider } from "./components/OverlayContext";
 import { useDispatch } from "react-redux";
 import { fetchProjectsFromAWS } from "./util/aws-amplify";
@@ -23,8 +23,9 @@ const App = ({ signOut }) => {
       <div className="App-Window fill flex flex-col">
         <ProjectsHeader />
         <Divider />
-        <main className="flex-grow overflow-auto">
+        <main className="flex-grow relative overflow-hidden">
             <ProjectsList />
+            <Project />
         </main>
         <button className="soft-dark rounded-xl flex gap-4 m-auto px-4 py-3 mt-4 mb-8" onClick={signOut}>
             <p className="uppercase text-xl font-semibold">Sign Out</p>
