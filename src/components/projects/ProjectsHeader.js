@@ -3,12 +3,15 @@ import FeatherIcon from 'feather-icons-react/build/FeatherIcon'
 import { useOverlay } from '../OverlayContext';
 import AddProject from './AddProject';
 import Heading from '../Heading';
+import { useSelector } from 'react-redux';
 
 const flex_center = "flex justify-center items-center ";
 
-export default function ProjectsHeader({n_projects}) {
-  const { openOverlay } = useOverlay();
-  const addProject = () => {
+export default function ProjectsHeader() {
+    const projects = useSelector(state => state.projects.projects);
+    const n_projects = (projects) ? projects.length : 0;
+    const { openOverlay } = useOverlay();
+    const addProject = () => {
     openOverlay(<AddProject />)
   }
     return (

@@ -1,12 +1,37 @@
 import React from 'react'
 import Overlay from '../Overlay'
+import { API, Auth } from 'aws-amplify';
+import { createProject as createProjectMutation} from '../../graphql/mutations';
+import { useDispatch } from 'react-redux';
+import { fetchProjectsFromAWS } from '../../util/aws-amplify';
 
 const input_class_list = "my-3 py-2 px-4 rounded-xl text-black";
 
 export default function AddProject({onSubmit}) {
+  const dispatch = useDispatch();
+    async function createProject(event) {
+      event.preventDefault();
+      const form = new FormData(event.target);
+      const userInfo = await Auth.currentUserInfo();
+      const data = {
+        name: form.get("name"),
+        description: form.get("description"),
+        userId: userInfo.attributes.sub,
+      };
+
+      try {
+        await API.graphql({
+          query: createProjectMutation,
+          variables: { input: data },
+        });
+        fetchProjectsFromAWS(dispatch)
+      } catch (error) {
+        console.error('Error creating project: ', error);
+      }
+    }
     return (
         <Overlay title={"Add Project"}>
-          <form className='px-8 mt-3' onSubmit={onSubmit}>
+          <form className='px-8 mt-3' onSubmit={createProject}>
           <div className="flex flex-col justify-center">
             <input
               className={input_class_list}

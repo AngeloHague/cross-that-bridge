@@ -6,16 +6,16 @@ type Project @model @auth( rules: [ { allow: owner } ] ) {
   id: ID!
   name: String!
   description: String
-  userId: ID!
+  userId: String!
 }
 
 type Todo @model @auth(rules: [ { allow: owner } ] ) {
   id: ID!
   name: String!
   description: String
-  userId: ID!
-  projectID: ID!
-  parentTask: ID
+  userId: String!
+  projectID: String!
+  parentTask: String
 }
 
 type Query {
