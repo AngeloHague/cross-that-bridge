@@ -27,7 +27,7 @@ export default function TodoUpdateForm(props) {
   const initialValues = {
     name: "",
     description: "",
-    userId: "",
+    userID: "",
     projectID: "",
     parentTask: "",
   };
@@ -35,7 +35,7 @@ export default function TodoUpdateForm(props) {
   const [description, setDescription] = React.useState(
     initialValues.description
   );
-  const [userId, setUserId] = React.useState(initialValues.userId);
+  const [userID, setUserID] = React.useState(initialValues.userID);
   const [projectID, setProjectID] = React.useState(initialValues.projectID);
   const [parentTask, setParentTask] = React.useState(initialValues.parentTask);
   const [errors, setErrors] = React.useState({});
@@ -45,7 +45,7 @@ export default function TodoUpdateForm(props) {
       : initialValues;
     setName(cleanValues.name);
     setDescription(cleanValues.description);
-    setUserId(cleanValues.userId);
+    setUserID(cleanValues.userID);
     setProjectID(cleanValues.projectID);
     setParentTask(cleanValues.parentTask);
     setErrors({});
@@ -69,7 +69,7 @@ export default function TodoUpdateForm(props) {
   const validations = {
     name: [{ type: "Required" }],
     description: [],
-    userId: [{ type: "Required" }],
+    userID: [{ type: "Required" }],
     projectID: [{ type: "Required" }],
     parentTask: [],
   };
@@ -101,7 +101,7 @@ export default function TodoUpdateForm(props) {
         let modelFields = {
           name,
           description: description ?? null,
-          userId,
+          userID,
           projectID,
           parentTask: parentTask ?? null,
         };
@@ -166,7 +166,7 @@ export default function TodoUpdateForm(props) {
             const modelFields = {
               name: value,
               description,
-              userId,
+              userID,
               projectID,
               parentTask,
             };
@@ -194,7 +194,7 @@ export default function TodoUpdateForm(props) {
             const modelFields = {
               name,
               description: value,
-              userId,
+              userID,
               projectID,
               parentTask,
             };
@@ -215,29 +215,29 @@ export default function TodoUpdateForm(props) {
         label="User id"
         isRequired={true}
         isReadOnly={false}
-        value={userId}
+        value={userID}
         onChange={(e) => {
           let { value } = e.target;
           if (onChange) {
             const modelFields = {
               name,
               description,
-              userId: value,
+              userID: value,
               projectID,
               parentTask,
             };
             const result = onChange(modelFields);
-            value = result?.userId ?? value;
+            value = result?.userID ?? value;
           }
-          if (errors.userId?.hasError) {
-            runValidationTasks("userId", value);
+          if (errors.userID?.hasError) {
+            runValidationTasks("userID", value);
           }
-          setUserId(value);
+          setUserID(value);
         }}
-        onBlur={() => runValidationTasks("userId", userId)}
-        errorMessage={errors.userId?.errorMessage}
-        hasError={errors.userId?.hasError}
-        {...getOverrideProps(overrides, "userId")}
+        onBlur={() => runValidationTasks("userID", userID)}
+        errorMessage={errors.userID?.errorMessage}
+        hasError={errors.userID?.hasError}
+        {...getOverrideProps(overrides, "userID")}
       ></TextField>
       <TextField
         label="Project id"
@@ -250,7 +250,7 @@ export default function TodoUpdateForm(props) {
             const modelFields = {
               name,
               description,
-              userId,
+              userID,
               projectID: value,
               parentTask,
             };
@@ -278,7 +278,7 @@ export default function TodoUpdateForm(props) {
             const modelFields = {
               name,
               description,
-              userId,
+              userID,
               projectID,
               parentTask: value,
             };

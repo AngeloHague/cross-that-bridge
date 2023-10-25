@@ -9,6 +9,7 @@ html * {
 
 #root {
   background-image: url('../public/BG.png');
+  background-size: cover;
 }
 
 .App {

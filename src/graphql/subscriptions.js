@@ -11,6 +11,10 @@ export const onCreateProject = /* GraphQL */ `
       name
       description
       userId
+      todos {
+        nextToken
+        __typename
+      }
       createdAt
       updatedAt
       owner
@@ -28,6 +32,10 @@ export const onUpdateProject = /* GraphQL */ `
       name
       description
       userId
+      todos {
+        nextToken
+        __typename
+      }
       createdAt
       updatedAt
       owner
@@ -45,6 +53,10 @@ export const onDeleteProject = /* GraphQL */ `
       name
       description
       userId
+      todos {
+        nextToken
+        __typename
+      }
       createdAt
       updatedAt
       owner
@@ -59,11 +71,21 @@ export const onCreateTodo = /* GraphQL */ `
   ) {
     onCreateTodo(filter: $filter, owner: $owner) {
       id
-      name
-      description
+      content
+      order
+      projectId
       userId
-      projectID
-      parentTask
+      subTasks {
+        id
+        content
+        order
+        projectId
+        userId
+        createdAt
+        updatedAt
+        owner
+        __typename
+      }
       createdAt
       updatedAt
       owner
@@ -78,11 +100,21 @@ export const onUpdateTodo = /* GraphQL */ `
   ) {
     onUpdateTodo(filter: $filter, owner: $owner) {
       id
-      name
-      description
+      content
+      order
+      projectId
       userId
-      projectID
-      parentTask
+      subTasks {
+        id
+        content
+        order
+        projectId
+        userId
+        createdAt
+        updatedAt
+        owner
+        __typename
+      }
       createdAt
       updatedAt
       owner
@@ -97,11 +129,21 @@ export const onDeleteTodo = /* GraphQL */ `
   ) {
     onDeleteTodo(filter: $filter, owner: $owner) {
       id
-      name
-      description
+      content
+      order
+      projectId
       userId
-      projectID
-      parentTask
+      subTasks {
+        id
+        content
+        order
+        projectId
+        userId
+        createdAt
+        updatedAt
+        owner
+        __typename
+      }
       createdAt
       updatedAt
       owner

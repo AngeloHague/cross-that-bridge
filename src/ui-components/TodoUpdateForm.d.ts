@@ -15,14 +15,14 @@ export declare type ValidationFunction<T> = (value: T, validationResponse: Valid
 export declare type TodoUpdateFormInputValues = {
     name?: string;
     description?: string;
-    userId?: string;
+    userID?: string;
     projectID?: string;
     parentTask?: string;
 };
 export declare type TodoUpdateFormValidationValues = {
     name?: ValidationFunction<string>;
     description?: ValidationFunction<string>;
-    userId?: ValidationFunction<string>;
+    userID?: ValidationFunction<string>;
     projectID?: ValidationFunction<string>;
     parentTask?: ValidationFunction<string>;
 };
@@ -31,7 +31,7 @@ export declare type TodoUpdateFormOverridesProps = {
     TodoUpdateFormGrid?: PrimitiveOverrideProps<GridProps>;
     name?: PrimitiveOverrideProps<TextFieldProps>;
     description?: PrimitiveOverrideProps<TextFieldProps>;
-    userId?: PrimitiveOverrideProps<TextFieldProps>;
+    userID?: PrimitiveOverrideProps<TextFieldProps>;
     projectID?: PrimitiveOverrideProps<TextFieldProps>;
     parentTask?: PrimitiveOverrideProps<TextFieldProps>;
 } & EscapeHatchProps;

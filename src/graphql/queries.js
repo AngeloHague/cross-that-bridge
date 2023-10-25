@@ -1,22 +1,6 @@
 /* eslint-disable */
 // this is an auto generated file. This will be overwritten
 
-export const getMyTodos = /* GraphQL */ `
-  query GetMyTodos {
-    getMyTodos {
-      id
-      name
-      description
-      userId
-      projectID
-      parentTask
-      createdAt
-      updatedAt
-      owner
-      __typename
-    }
-  }
-`;
 export const getMyProjects = /* GraphQL */ `
   query GetMyProjects {
     getMyProjects {
@@ -24,6 +8,36 @@ export const getMyProjects = /* GraphQL */ `
       name
       description
       userId
+      todos {
+        nextToken
+        __typename
+      }
+      createdAt
+      updatedAt
+      owner
+      __typename
+    }
+  }
+`;
+export const getTodosByProjectId = /* GraphQL */ `
+  query GetTodosByProjectId($projectId: ID!) {
+    getTodosByProjectId(projectId: $projectId) {
+      id
+      content
+      order
+      projectId
+      userId
+      subTasks {
+        id
+        content
+        order
+        projectId
+        userId
+        createdAt
+        updatedAt
+        owner
+        __typename
+      }
       createdAt
       updatedAt
       owner
@@ -38,6 +52,10 @@ export const getProject = /* GraphQL */ `
       name
       description
       userId
+      todos {
+        nextToken
+        __typename
+      }
       createdAt
       updatedAt
       owner
@@ -71,11 +89,21 @@ export const getTodo = /* GraphQL */ `
   query GetTodo($id: ID!) {
     getTodo(id: $id) {
       id
-      name
-      description
+      content
+      order
+      projectId
       userId
-      projectID
-      parentTask
+      subTasks {
+        id
+        content
+        order
+        projectId
+        userId
+        createdAt
+        updatedAt
+        owner
+        __typename
+      }
       createdAt
       updatedAt
       owner
@@ -92,11 +120,43 @@ export const listTodos = /* GraphQL */ `
     listTodos(filter: $filter, limit: $limit, nextToken: $nextToken) {
       items {
         id
-        name
-        description
+        content
+        order
+        projectId
         userId
-        projectID
-        parentTask
+        createdAt
+        updatedAt
+        owner
+        __typename
+      }
+      nextToken
+      __typename
+    }
+  }
+`;
+export const todosByProjectIdAndContent = /* GraphQL */ `
+  query TodosByProjectIdAndContent(
+    $projectId: ID!
+    $content: ModelStringKeyConditionInput
+    $sortDirection: ModelSortDirection
+    $filter: ModelTodoFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    todosByProjectIdAndContent(
+      projectId: $projectId
+      content: $content
+      sortDirection: $sortDirection
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        content
+        order
+        projectId
+        userId
         createdAt
         updatedAt
         owner

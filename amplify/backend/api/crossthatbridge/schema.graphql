@@ -1,34 +1,35 @@
 # This "input" configures a global authorization rule to enable public access to
 # all models in this schema. Learn more about authorization rules here: https://docs.amplify.aws/cli/graphql/authorization-rules
-# input AMPLIFY { globalAuthRule: AuthRule = { allow: public } } # FOR TESTING ONLY!
+input AMPLIFY { globalAuthRule: AuthRule = { allow: public } } # FOR TESTING ONLY!
 
 type Project @model @auth( rules: [ { allow: owner } ] ) {
   id: ID!
   name: String!
   description: String
   userId: String!
+  todos: [Todo] @hasMany(indexName: "byProject", fields: ["id"])
 }
 
 type Todo @model @auth(rules: [ { allow: owner } ] ) {
   id: ID!
-  name: String!
-  description: String
+  content: String!
+  order: Int!
+  projectId: ID! @index(name: "byProject", sortKeyFields: ["content"])
   userId: String!
-  projectID: String!
-  parentTask: String
+  subTasks: [Todo]
 }
 
 type Query {
-  getMyTodos: [Todo]
-    @auth(
-      rules: [
-        { allow: owner, ownerField: "userId" }
-      ]
-    )
   getMyProjects: [Project]
     @auth(
       rules: [
         { allow: owner, ownerField: "userId" }
       ]
-    )
+    ),
+  getTodosByProjectId(projectId: ID!): [Todo]
+    @auth(
+      rules: [
+        { allow: owner, ownerField: "userId" }
+      ]
+    ),
 }
