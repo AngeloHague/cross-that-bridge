@@ -27,12 +27,14 @@ export const getTodosByProjectId = /* GraphQL */ `
       order
       projectId
       userId
+      complete
       subTasks {
         id
         content
         order
         projectId
         userId
+        complete
         createdAt
         updatedAt
         owner
@@ -93,12 +95,14 @@ export const getTodo = /* GraphQL */ `
       order
       projectId
       userId
+      complete
       subTasks {
         id
         content
         order
         projectId
         userId
+        complete
         createdAt
         updatedAt
         owner
@@ -124,6 +128,7 @@ export const listTodos = /* GraphQL */ `
         order
         projectId
         userId
+        complete
         createdAt
         updatedAt
         owner
@@ -157,6 +162,7 @@ export const todosByProjectIdAndContent = /* GraphQL */ `
         order
         projectId
         userId
+        complete
         createdAt
         updatedAt
         owner
