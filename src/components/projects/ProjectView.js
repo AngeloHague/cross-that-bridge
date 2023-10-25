@@ -39,7 +39,7 @@ export function ProjectView({ props }) {
             // fetchTasksFromAWS(dispatch);
             const id = project.id;
             console.log(id);
-            fetchTasksByProjectFromAWS(dispatch, id);
+            if (!project.tasks) fetchTasksByProjectFromAWS(dispatch, id);
             if (showTasks) {
                 // Set the element to be on-screen
                 controls.start('taskView');
