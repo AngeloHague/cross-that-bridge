@@ -26,7 +26,7 @@ export const projectSlice = createSlice({
         },
         SET_TASKS: (state, action) => {
             // Assuming action.payload is an array of tasks
-            const tasks = action.payload;
+            const tasks = (action.payload) ? action.payload : [];
 
             // Find the current project's index
             const projectIndex = state.projects.findIndex(project => project.id === state.current.id);
@@ -44,6 +44,7 @@ export const projectSlice = createSlice({
                     updatedProject,
                     ...state.projects.slice(projectIndex + 1),
                 ];
+                state.current = updatedProject;
             }
         },
         ADD_TASK: (state, action) => {

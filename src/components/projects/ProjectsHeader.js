@@ -18,10 +18,18 @@ export default function ProjectsHeader({props}) {
     const projects = useSelector(state => state.projects.projects);
     const project = useSelector(state => state.projects.current);
     const showTasks = useSelector(state => state.projects.showTasks);
-    const n_projects = (projects) ? projects.length : 0;
-    const n_tasks = (project && project.tasks) ? project.tasks.length : 0;
+    let n_projects = (projects) ? projects.length : 0;
+    let n_tasks = (project && project.tasks) ? project.tasks.length : 0;
 
     const n = (project) ? n_tasks : n_projects;
+
+    useEffect(() => {
+        // This function will run whenever project or projects change
+        const n_projects = projects ? projects.length : 0;
+        const n_tasks = project && project.tasks ? project.tasks.length : 0;
+        const n = project ? n_tasks : n_projects;
+        // Update the n value here
+    }, [project, projects]);
     
     const title = (project) ? 'Tasks' : 'Projects';
     const rightBtnIcon = (project) ? 'arrow-left' : 'search'

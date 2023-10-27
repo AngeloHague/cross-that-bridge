@@ -12,7 +12,7 @@ export function ProjectsList() {
     const sorted = projects.slice().sort((a, b) => a.updatedAt - b.updatedAt);
 
     function setProject(p) {
-        console.log('Setting project to: ' + p)
+        console.log('Setting project to: ', p)
         dispatch(SET_CURRENT_PROJECT(p));
     }
     const variants = {
