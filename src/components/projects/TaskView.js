@@ -5,24 +5,38 @@ import { ADD_TASK, TOGGLE_TASKS } from '../../util/redux/projectSlice';
 import { motion, useAnimation } from 'framer-motion';
 import { createTodo as createTodoMutation } from '../../graphql/mutations';
 import { API, Auth } from 'aws-amplify';
+import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
+import FeatherIcon from 'feather-icons-react/build/FeatherIcon';
+
+export function DraggableTask({task}) {
+    const icon = (task.completed) ? 'check-circle' : 'circle';
+    return(
+            <div className='flex my-5 w-full box-border p-3 pl-4 justify-between'>
+                <p className='uppercase text-lg font-semibold text-left'>{task.content}</p>
+                <button><FeatherIcon icon={icon} /></button>
+            </div>
+    )
+}
 
 export function TaskList({tasks}) {
     return (
-        <div>
-        {tasks ? tasks.map((task) => (
-            <button className='soft-white rounded-2xl flex my-5 w-full box-border p-3 pl-4 justify-between'>
-                <p className='uppercase text-xl font-semibold'>{task.content}</p>
-                {/* <FeatherIcon icon={icon} /> */}
-            </button>
-        )) : <></>}
+        <div className='flex-grow'>
+            {tasks ? tasks.map((task) => (
+                // <button className='soft-white rounded-2xl flex my-5 w-full box-border p-3 pl-4 justify-between'>
+                //     <p className='uppercase text-xl font-semibold'>{task.content}</p>
+                //     {/* <FeatherIcon icon={icon} /> */}
+                // </button>
+                <DraggableTask task={task} />
+            )) : <></>}
         </div>
     )
 }
 
-export function TaskView({ props }) {
-    const [tasks, setTasks] = useState(null);
+export function TaskView() {
+    // const [tasks, setTasks] = useState(null);
     const dispatch = useDispatch();
     const project = useSelector(state => state.projects.current);
+    const tasks = (project && project.tasks) ? project.tasks : []
     const showTasks = useSelector(state => state.projects.showTasks);
     // const projects = useSelector(state => state.projects.projects);
     const variants = {
@@ -55,9 +69,7 @@ export function TaskView({ props }) {
             });
             console.log(res);
             dispatch(ADD_TASK(res.data.createTodo));
-            // dispatch(ADD_PROJECT(res.data.createProject));
-            // closeOverlay();
-            // fetchProjectsFromAWS(dispatch)
+            console.log(project)
           } catch (error) {
             console.error('Error creating Task: ', error);
           }
@@ -69,10 +81,10 @@ export function TaskView({ props }) {
         if (project === null) {
             // Set the element to be off-screen
             controls.start('noProject');
-            setTasks(null);
+            // setTasks(null);
         } else {
-            const t = project.tasks;
-            setTasks(t);
+            // const t = project.tasks;
+            // setTasks(t);
             if (showTasks) {
                 // Set the element to be on-screen
                 controls.start('taskView');
@@ -89,15 +101,13 @@ export function TaskView({ props }) {
     }
 
     return (
-        <motion.div className='w-full h-full px-8 absolute inset-y-0 overflow-auto'
+        <motion.div className='w-full h-full px-8 absolute inset-y-0 overflow-auto flex flex-col'
             initial={'noProject'}
             animate={controls}
             variants={variants}
             transition={{ type: 'spring', stiffness: 200, damping: 30 }}
         >
             <TaskList tasks={tasks} />
-            <RoundedButton text="Add Task" icon='plus' onClick={addTask} />
-            <RoundedButton text="Go Back" onClick={goBack} icon={'arrow-left'} />
         </motion.div>
     )
 }
