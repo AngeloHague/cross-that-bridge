@@ -47,8 +47,25 @@ export const projectSlice = createSlice({
             }
         },
         ADD_TASK: (state, action) => {
-            const projectID = state.current.id;
-            state.projects[projectID].tasks = (state.projects[projectID].tasks) ? [...state.projects[projectID].tasks, action.payload] : [action.payload];
+            const task = action.payload
+            // Find the current project's index
+            const projectIndex = state.projects.findIndex(project => project.id === state.current.id);
+            const tasks = (state.projects[projectIndex].tasks) ? (state.projects[projectIndex].tasks) : [task]
+            if (projectIndex !== -1) {
+                // Create a new project object with the updated tasks array
+                const updatedProject = {
+                    ...state.projects[projectIndex],
+                    tasks: tasks,
+                };
+
+                // Create a new projects array with the updated project
+                state.projects = [
+                    ...state.projects.slice(0, projectIndex),
+                    updatedProject,
+                    ...state.projects.slice(projectIndex + 1),
+                ];
+            }
+            // state.projects[projectIndex].tasks = (state.projects[projectIndex].tasks) ? [...state.projects[projectIndex].tasks, action.payload] : [action.payload];
             // state.projects[projectID].tasks = [...state.projects[projectID].tasks, action.payload]
         },
         TOGGLE_TASKS: (state) => {
