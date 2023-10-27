@@ -1,17 +1,18 @@
-import React from 'react'
+import React, { useState } from 'react'
 import Overlay from '../Overlay'
 import { API, Auth } from 'aws-amplify';
 import { createProject as createProjectMutation} from '../../graphql/mutations';
 import { useDispatch } from 'react-redux';
-import { fetchProjectsFromAWS } from '../../util/aws-amplify';
 import { ADD_PROJECT } from '../../util/redux/projectSlice'
 import { useOverlay } from '../OverlayContext';
+import FeatherIcon from 'feather-icons-react/build/FeatherIcon';
 
-const input_class_list = "my-3 py-2 px-4 rounded-xl text-black";
+export const input_class_list = "my-3 py-2 px-4 rounded-xl text-black";
 
 export default function AddProject({onSubmit}) {
   const dispatch = useDispatch();
   const { closeOverlay } = useOverlay();
+  const [loading, setLoading] = useState(false);
 
     const handleClose = () => {
         closeOverlay(); 
@@ -19,6 +20,7 @@ export default function AddProject({onSubmit}) {
 
     async function createProject(event) {
       event.preventDefault();
+      setLoading(true);
       const form = new FormData(event.target);
       const userInfo = await Auth.currentUserInfo();
       const data = {
@@ -39,6 +41,7 @@ export default function AddProject({onSubmit}) {
       } catch (error) {
         console.error('Error creating project: ', error);
       }
+      setLoading(false);
     }
     return (
         <Overlay title={"Add Project"}>
@@ -62,9 +65,15 @@ export default function AddProject({onSubmit}) {
               variation="quiet"
               required
             />
-            <button type="submit" variation="primary">
-              Create Note
-            </button>
+            <div className='relative'>
+                <button className='soft-white rounded-2xl flex mt-5 mb-8 w-full box-border p-3 pl-4 justify-between items-center' type="submit" variation="primary">
+                    <p className='uppercase text-xl font-semibold'>Add Task</p>
+                    <FeatherIcon icon={'check-circle'} />
+                </button>
+                {loading ? <div className='absolute inset-0 bg-grey-blue rounded-2xl mt-5 mb-8 w-full box-border p-3 pl-4 flex justify-center items-center'>
+                    <div class="lds-dual-ring scale-50"></div>
+                </div> : <></>}
+            </div>
           </div>
         </form>
         </Overlay>
