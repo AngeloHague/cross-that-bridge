@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import RoundedButton from '../RoundedButton'
 import { useDispatch, useSelector } from 'react-redux'
 import { CLEAR_CURRENT_PROJECT, DELETE_PROJECT, TOGGLE_TASKS } from '../../util/redux/projectSlice';
@@ -7,10 +7,9 @@ import { deleteProject as deleteProjectMutation } from '../../graphql/mutations'
 import { API } from 'aws-amplify';
 import ConfirmDeletionModal from './ConfirmDeletionModal';
 import { useOverlay } from '../OverlayContext';
-import { fetchTasksByProjectFromAWS, fetchTasksFromAWS } from '../../util/aws-amplify';
+import { fetchTasksByProjectFromAWS } from '../../util/aws-amplify';
 
 export function ProjectView({ props }) {
-    const [tasks, setTasks] = useState(null);
     const dispatch = useDispatch();
     const project = useSelector(state => state.projects.current);
     const showTasks = useSelector(state => state.projects.showTasks);
@@ -34,7 +33,6 @@ export function ProjectView({ props }) {
         if (project === null) {
             // Set the element to be off-screen
             controls.start('noProject');
-            setTasks(null);
         } else {
             // fetchTasksFromAWS(dispatch);
             const id = project.id;
@@ -48,7 +46,7 @@ export function ProjectView({ props }) {
                 controls.start('hasProject');
             }
         }
-    }, [project, controls, showTasks]);
+    }, [dispatch, project, controls, showTasks]);
 
     function toggleTaskView() {
         dispatch(TOGGLE_TASKS());
