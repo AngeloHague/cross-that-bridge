@@ -28,6 +28,7 @@ export default function AddTask() {
             order: order,
             projectId: projectId,
             userId: userInfo.attributes.sub,
+            complete: false,
         };
         try {
             const res = await API.graphql({

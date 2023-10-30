@@ -19,20 +19,20 @@ export async function fetchProjectsFromAWS(dispatch) {
   }
 }
 
-export async function fetchTasksFromAWS(dispatch) {
-  console.log('Fetching all tasks from AWS...')
-  try {
-    const apiData = await API.graphql({ query: listTodos });
-    const projects = apiData.data.listTodos.items;
-    // cache data
-    console.log(projects)
-    // localStorage.setItem('cross-that-bridge/projects', JSON.stringify(projects));
-    // dispatch(SET_PROJECTS(projects));
-  } catch (error) {
-    console.error('Error fetching all tasks:', error);
-    throw error;
-  }
-}
+// export async function fetchTasksFromAWS(dispatch) {
+//   console.log('Fetching all tasks from AWS...')
+//   try {
+//     const apiData = await API.graphql({ query: listTodos });
+//     const projects = apiData.data.listTodos.items;
+//     // cache data
+//     console.log(projects)
+//     // localStorage.setItem('cross-that-bridge/projects', JSON.stringify(projects));
+//     // dispatch(SET_PROJECTS(projects));
+//   } catch (error) {
+//     console.error('Error fetching all tasks:', error);
+//     throw error;
+//   }
+// }
 
 export async function fetchTasksByProjectFromAWS(dispatch, projectId) {
   console.log('Fetching ' + projectId + ' tasks from AWS...');
